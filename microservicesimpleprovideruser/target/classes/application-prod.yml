@@ -1,0 +1,56 @@
+server:
+   port: 8001
+spring:
+   application:
+      name: microservice-simple-provider-user
+   jap:
+      generate-ddl: false
+      show-sql: true
+      hibernate:
+         ddl-auto: none
+   datasource:
+         url: jdbc:mysql://127.0.0.1:3306/garyh?characterEncoding=UTF-8
+         username: root
+         password: garyhu
+         driverClassName: com.mysql.jdbc.Driver
+         max-active: 20
+         max-idle: 8
+         min-idle: 8
+         initial-size: 10
+security:
+   basic:
+      enabled: false # 关闭Http basic 认证
+   user:
+      name: user1
+      password: password1
+logging:
+   level:
+      root: INFO
+      org.hibernate: INFO
+      org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+      org.hibernate.type.descriptor.sql.BasicExtractor: TRACE
+#配置下/info接口的信息
+info:
+   app:
+      name: microservice-simple-provider-user
+      encoding: UTF-8
+      java:
+         source: 1.8.0_65
+         target: 1.8.0_65
+eureka:
+   client:
+      serviceUrl:
+         defaultZone: http://garyhu:pass123@peer2:8761/eureka/
+      instance:
+         prefer-ip-address: true #表示将自己的Ip注册到Eureka Server上
+   # 开启健康检查
+   healthcheck:
+      enabled: true
+# 设置负载均衡
+microservice-simple-provider-user:
+   ribbon:
+      NFLoadBalanceRuleClassName: com.netflix.loadbalancer.RandomRule
+imooc:
+   security:
+      browser:
+         loginPage: /login.html
