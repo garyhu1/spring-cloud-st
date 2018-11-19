@@ -1,0 +1,12 @@
+server:
+   port: 8801
+spring:
+   application:
+      name: server-config
+   cloud:
+      config:
+         server:
+            git: # 配置git
+               uri: https://github.com/garyhu1/spring-cloud-st.git
+               username: garyhu1
+               password: lyyahww09081020
