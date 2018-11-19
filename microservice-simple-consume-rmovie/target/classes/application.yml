@@ -1,0 +1,86 @@
+server:
+   port: 8010
+spring:
+   application:
+      name: microservice-simple-consumer-movie
+   jap:
+      generate-ddl: false
+      show-sql: true
+      hibernate:
+         ddl-auto: none
+   datasource:
+         url: jdbc:mysql://127.0.0.1:3306/garyh?characterEncoding=UTF-8
+         username: root
+         password: garyhu
+         driverClassName: com.mysql.jdbc.Driver
+         max-active: 20
+         max-idle: 8
+         min-idle: 8
+         initial-size: 10
+logging:
+   level:
+      root: INFO
+      org.hibernate: INFO
+      org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+      org.hibernate.type.descriptor.sql.BasicExtractor: TRACE
+      com.garyhu.feign.StudentFeignClient: DEBUG
+#配置下/info接口的信息
+info:
+   app:
+      name: microservice-simple-consumer-movie
+      encoding: UTF-8
+      java:
+         source: 1.8.0_65
+         target: 1.8.0_65
+eureka:
+   client:
+      serviceUrl:
+         # 注册到集群上，也可以只注册一个，因为多个Eureka Server之间的数据会互相同步
+         defaultZone: http://garyhu:pass123@peer1:8761/eureka/,http://garyhu:pass123@peer2:8762/eureka/
+      instance:
+         prefer-ip-address: true #表示将自己的Ip注册到Eureka Server上
+         metadata-map:
+            my-metadata: 我自定义的元数据
+            name: ll
+      # 开启健康检查
+      healthcheck:
+         enabled: true
+# Ribbon配置，该配置是Ribbon脱离了Eureka
+#microservice-simple-provider-user:
+   #ribbon:
+      #listOfServers: localhost:8000,localhost:8001 #指定服务器IP
+feign:
+   # 压缩
+   compression:
+      request:
+         enabled: true
+         mime-types: text/xml,application/xml,application/json     # 支持的媒体类型
+         min-request-size: 2048                                   # 设置请求的最小阈值
+   # 全局禁用Hystrix
+   #hystrix:
+      #enabled: false
+#一般单独开个项目来开启监控，此处只是演示配置，先注释了
+#turbine:
+   #appConfig: PersonalProject,microservice-simple-provider-user  # 监控指定的微服务
+   #clusterNameExpression: "'default'"
+zuul:
+   #ignored-services: '*'             # 使用‘*’可忽略所用微服务，只代理下面routes指定的微服务
+   ignored-services: microservice-simple-provider-user
+   ignoredPatterns: /**/admin/**     # 忽略所有带/admin/的路径
+   # 可以指定全局敏感的Header
+   sensitive-headers: Cookie,Set-Cookie,Authorization
+   # 可以忽略一些Header,这样Header1和Header2就不会传播到其他的微服务中了，默认情况下ignored-headers为空
+   #ignored-headers: Header1,Header2
+   # 忽略某些header但是又需要使用下游的header时，可进行下面的配置
+   #ignoredSecurity-Headers: false
+   routes:
+      user-route:        # 该配置方式中，user-route只是路由一个名称，可以任意起
+         service-id: personalproject
+         path: /getStudent
+         # 为personalproject指定敏感Header,会覆盖全局的敏感配置
+         sensitive-headers: Cookie,Set-Cookie,Authorization
+      #personalproject: /getStudent   # 指定代理的微服务 该方式跟user-route配置一样
+# sidecar是用来整合异构语言的，此处只是加点配置，最好另外开个微服务项目来整合
+#sidecar:
+   #port: 8060                                          # Node.js微服务的端口号
+   #health-uri: http://localhost:8060/health.json      # Node.js微服务的健康检查URL
