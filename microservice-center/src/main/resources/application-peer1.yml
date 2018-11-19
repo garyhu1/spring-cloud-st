@@ -1,0 +1,38 @@
+server:
+   port: 8761
+spring:
+   application:
+      name: microservice-center-peer1
+   cloud:
+   # 多网卡环境下的IP 选择
+      inetutils: # 忽略了docker0网卡以及所有veth开头的网卡
+         - docker0
+         - veth.*
+         # 使用正则表达式，指定使用的网络地址
+         #preferredNetworks:
+            #- 192.168
+            #- 10.0
+         # 只使用本地地址
+         #useOnlySiteLocalInterfaces: true
+eureka:
+   server:
+      enable-self-preservation: false # false表示禁用自我保护模式，开启自我保护模式，可以避免因为网络问题导致的盲目注销一些健康的服务
+   instance:
+      hostname: peer1 # 指定当profiles = peer1时，主机名称是peer1
+      # 手动指定IP地址
+      #ip-address: 127.0.0.1
+   client:
+      registerWithEureka: true # 表示是否将自己注册到Eureka Server,默认为true，
+      fetchRegistry: true # 表示是否从Eureka Server获取注册信息，默认为true,因为当前为单点Eureka Server，所以不需要从别的Eureka Server上获取信息
+      serviceUrl:
+         # 设置与Eureka Server交互的地址，查询服务和注册服务都需要依赖这个地址。默认为http://localhost:8761/eureka/，多个地址可用“，”分割
+         defaultZone: http://garyhu:pass123@peer2:8762/eureka/
+      # 开启健康检查
+      healthcheck:
+         enabled: true
+security:
+   basic:
+      enabled: true # 开启基于Http basic的认证
+   user:
+      name: garyhu
+      password: pass123
