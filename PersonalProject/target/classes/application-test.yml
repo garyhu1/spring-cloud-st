@@ -1,0 +1,44 @@
+server:
+   port: 8077
+#配置数据库
+spring:
+   application:
+      name: PersonalProject
+   http:
+         multipart:
+            max-file-size: 2000Mb          # 默认为1M
+            max-request-size: 2500Mb       #  默认为10M
+   datasource:
+      url: jdbc:mysql://127.0.0.1:3306/garyh?characterEncoding=UTF-8
+      username: root
+      password: garyhu
+      driverClassName: com.mysql.jdbc.Driver
+      max-active: 20
+      max-idle: 8
+      min-idle: 8
+      initial-size: 10
+   # Redis配置
+   redis:
+      host: 127.0.0.1
+      password: Redis!123
+      port: 6379
+      # 最大连接数
+      pool:
+         max-active: 8 # 0表示无限制
+# 自定义的配置
+teacher:
+   name: jackon
+   age: 40
+   id: 1112
+water:
+   height: 1120
+api:
+   book: http://127.0.0.1:8820
+eureka:
+   client:
+      serviceUrl:
+         defaultZone: http://garyhu:pass123@peer1:8761/eureka/,http://garyhu:pass123@peer2:8762/eureka/
+      instance:
+         prefer-ip-address: true
+      healthcheck:
+         enabled: true

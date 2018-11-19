@@ -1,0 +1,16 @@
+#user-profile {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+#head-icon {
+    width: 60px;
+    height: 60px;
+    margin: 0 10px;
+    border-radius: 5px;
+}
+.personal_name {
+    color : #31550A;
+    font-size: 18px;
+    margin-left: 10px;
+}

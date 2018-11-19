@@ -1,0 +1,43 @@
+server:
+   port: 8099
+   #address: 服务器IP绑定地址,如果你的主机上有多个网卡，可以绑定一个IP地址
+   #contextPath: Spring Boot 应用的上下文
+   #session:
+       #timeout: 会话过期时间，以秒为单位
+   #tomcat: tomcat的相关配置
+       # accesslog: 日志
+            #enabled: 打开Tomcat访问日志
+            #directory: 访问日志所在目录
+       #accept-count:允许HTTP请求缓存到请求队列的最大个数，默认不限制
+       #max-connections: 最大连接数，默认不限制，如果一旦连接数到达，剩下的连接将会保存到请求队列里，也就是accept-count指定的队列
+       #max-threads: 最大工作线程
+       #max-http-post-size: HTTP POST内容最大长度，默认不限制
+   #undertow: undertow相关配置
+       #accesslog：
+           #enabled: 打开日志，默认false
+           #dir: 日志目录
+       #io-threads: I/O线程的数量，默认为2或者CPU个数
+       #worker-threads: 工作线程个数，默认为I/O线程个数的8倍
+       #max-http-post-size: HTTP POST内容最大长度，默认不限制
+   error:
+      path: /error # 默认/error
+#配置数据库
+spring:
+   application:
+      name: PersonalProject
+   datasource:
+      url: jdbc:mysql://127.0.0.1:3306/garyh?characterEncoding=UTF-8
+      username: root
+      password: garyhu
+      driverClassName: com.mysql.jdbc.Driver
+      max-active: 20
+      max-idle: 8
+      min-idle: 8
+      initial-size: 10
+# 自定义的配置
+teacher:
+   name: jackon
+   age: 40
+   id: 1112
+water:
+   height: 1120
